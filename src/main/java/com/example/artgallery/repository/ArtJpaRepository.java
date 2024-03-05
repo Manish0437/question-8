@@ -16,5 +16,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArtJpaRepository extends JpaRepository<Art, Integer> {
-
+  List<Art> findByArtist(Artist artist);
 }
