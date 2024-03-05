@@ -17,5 +17,5 @@ import java.util.*;
 
 @Repository
 public interface ArtistJpaRepository extends JpaRepository<Artist, Integer> {
-    List<Artist> findByGallery(Gallery gallery);
+    // List<Artist> findByGallery(Gallery gallery);
 }
