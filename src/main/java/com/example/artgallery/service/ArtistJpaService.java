@@ -1,9 +1,11 @@
 
 package com.example.artgallery.service;
+
 import com.example.artgallery.model.Art;
 import com.example.artgallery.model.Artist;
 import com.example.artgallery.model.Gallery;
 import com.example.artgallery.repository.ArtistJpaRepository;
+import com.example.artgallery.repository.ArtJpaRepository;
 import com.example.artgallery.repository.ArtistRepository;
 import com.example.artgallery.repository.GalleryJpaRepository;
 import com.example.artgallery.repository.GalleryRepository;
@@ -25,6 +27,9 @@ public class ArtistJpaService implements ArtistRepository {
     @Autowired
     private GalleryJpaRepository galleryJpaRepository;
 
+    @Autowired
+    private ArtJpaRepository artJpaRepository;
+
     @Override
     public ArrayList<Artist> getArtists() {
         List<Artist> artistList = artistJpaRepository.findAll();
@@ -44,6 +49,7 @@ public class ArtistJpaService implements ArtistRepository {
 
     @Override
     public Artist addArtist(Artist artist) {
+
         List<Integer> galleryIds = new ArrayList<>();
         for (Gallery gallery : artist.getGalleries()) {
             galleryIds.add(gallery.getGalleryId());
@@ -96,11 +102,21 @@ public class ArtistJpaService implements ArtistRepository {
         throw new ResponseStatusException(HttpStatus.NO_CONTENT);
     }
 
+    // @Override
+    // public List<Art> getArtistArts(int artistId) {
+    // try {
+    // Artist artist = artJpaRepository.findById(artistId).get();
+    // return artist.getArts();
+    // } catch (Exception e) {
+    // throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    // }
+    // }
+
     @Override
     public List<Art> getArtistArts(int artistId) {
         try {
             Artist artist = artistJpaRepository.findById(artistId).get();
-            return artist.getArts();
+            return artJpaRepository.findByArtist(artist); // updated code
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
